@@ -3,4 +3,11 @@
 version: '2'
 
 tasks:
-
+  scss:
+    desc: Builds the CSS from the SCSS source
+    cmds:
+      - scss --style compressed assets/sass/main.scss static/css/style.css
+    sources:
+      - assets/sass/*.scss
+    generates:
+      - static/css/*
