@@ -53,7 +53,7 @@ func OpenConfig(path string) Config {
 
 // SaveConfig writes a configuration to the given path as a JSON.
 func (c Config) SaveConfig(path string) {
-	data, err := json.Marshal(c)
+	data, err := json.MarshalIndent(c, "", "    ")
 	if err != nil {
 		logrus.Fatalf("couldn't marshal config, %s", err)
 	}
