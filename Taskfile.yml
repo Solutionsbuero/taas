@@ -6,8 +6,8 @@ tasks:
   scss:
     desc: Builds the CSS from the SCSS source
     cmds:
-      - scss --style compressed assets/sass/main.scss static/css/style.css
+      - scss --style compressed assets/sass/main.scss public/assets/css/style.css
     sources:
       - assets/sass/*.scss
     generates:
-      - static/css/*
+      - public/assets/css/*
