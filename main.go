@@ -18,10 +18,17 @@ func main() {
 				Email: "msg@frg72.com",
 			},
 		},
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:    "debug",
+				Aliases: []string{"d"},
+				Usage:   "enable debug logging level",
+			},
+		},
 		Action: func(c *cli.Context) error {
 			path := getArgument(c)
 			cfg := ttrn.OpenConfig(path)
-			ttrn.Run(cfg)
+			ttrn.Run(cfg, c.Bool("debug"))
 			return nil
 		},
 		Commands: []*cli.Command{

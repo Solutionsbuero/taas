@@ -7,6 +7,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	echoLog "github.com/labstack/gommon/log"
+	"github.com/neko-neko/echo-logrus/v2"
+	"github.com/neko-neko/echo-logrus/v2/log"
 )
 
 // TemplateRenderer implements the Echo renderer interface.
@@ -28,9 +31,19 @@ type Web struct {
 	echo *echo.Echo
 }
 
-// NewWeb returns a new instance of the Web struct.
-func NewWeb(cfg Config) Web {
+// NewWeb returns a new instance of the Web struct. When debug parameter is true, debugging
+// is enabled.
+func NewWeb(cfg Config, doDebug bool) Web {
 	e := echo.New()
+
+	if doDebug {
+		log.Logger().SetLevel(echoLog.DEBUG)
+	} else {
+		log.Logger().SetLevel(echoLog.INFO)
+	}
+	e.Logger = log.Logger()
+	e.Use(middleware.Logger())
+
 	e.Renderer = &TemplateRenderer{
 		tpls: template.Must(template.ParseGlob("public/views/*.html")),
 	}
