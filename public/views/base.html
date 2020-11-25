@@ -1,0 +1,25 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html>
+    <head>
+		<title>ttrn</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="js/uikit.min.js"></script>
+		<script src="js/uikit-icons.min.js"></script>
+		<script src="http://localhost:35730/livereload.js"></script>
+	</head>
+	<body>
+		<section id="content" class="uk-section uk-section-default">
+			<div class="uk-container uk-width-5-6@s uk-width-3-4@m uk-width-2-3@xl">
+				<!--<div class="uk-center  uk-width-2-3@m" uk-grid>-->
+				<div class="">
+					{{ template "content" . }}
+				</div>
+				</div>
+		</section>
+	</body>
+	{{ template "footer" }}
+</html>
+{{ end }}
