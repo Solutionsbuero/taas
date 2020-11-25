@@ -1,4 +1,4 @@
-package pkg
+package ttrn
 
 import (
 	"encoding/json"

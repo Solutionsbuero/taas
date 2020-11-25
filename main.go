@@ -3,8 +3,8 @@ package main
 import (
 	"os"
 
+	"github.com/solutionsbuero/ttrn/src"
 	"github.com/sirupsen/logrus"
-	"github.com/solutionsbuero/ttrn/server"
 	"github.com/urfave/cli/v2"
 )
 
@@ -24,7 +24,7 @@ func main() {
 				Usage: "creates a new config file",
 				Action: func(c *cli.Context) error {
 					path := getArgument(c)
-					cfg := server.DefaultConfig()
+					cfg := ttrn.DefaultConfig()
 					cfg.SaveConfig(path)
 					return nil
 				},
