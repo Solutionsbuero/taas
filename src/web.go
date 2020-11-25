@@ -39,7 +39,7 @@ func NewWeb(cfg Config, doDebug bool) Web {
 	if doDebug {
 		log.Logger().SetLevel(echoLog.DEBUG)
 	} else {
-		log.Logger().SetLevel(echoLog.INFO)
+		log.Logger().SetLevel(echoLog.WARN)
 	}
 	e.Logger = log.Logger()
 	e.Use(middleware.Logger())
