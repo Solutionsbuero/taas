@@ -34,6 +34,7 @@ func NewWeb(cfg Config) Web {
 	e.Renderer = &TemplateRenderer{
 		tpls: template.Must(template.ParseGlob("public/views/*.html")),
 	}
+	e.Static("/", "public/assets")
 	addRoutes(e, cfg)
 
 	return Web{
@@ -52,7 +53,7 @@ func addRoutes(e *echo.Echo, cfg Config) {
 	e.GET("/", getIndex)
 }
 
-// getIndex handles the GET request on /. 
+// getIndex handles the GET request on /.
 func getIndex(c echo.Context) error {
 	return c.Render(http.StatusOK, "index.html", map[string]interface{}{})
 }
