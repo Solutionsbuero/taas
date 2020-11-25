@@ -1,10 +1,11 @@
 package main
 
 import (
+	"errors"
 	"os"
 
-	"github.com/solutionsbuero/ttrn/src"
 	"github.com/sirupsen/logrus"
+	"github.com/solutionsbuero/ttrn/src"
 	"github.com/urfave/cli/v2"
 )
 
@@ -17,6 +18,12 @@ func main() {
 				Name:  "72nd",
 				Email: "msg@frg72.com",
 			},
+		},
+		Action: func(c *cli.Context) error {
+			path := getArgument(c)
+			cfg := ttrn.OpenConfig(path)
+			ttrn.Run(cfg)
+			return nil
 		},
 		Commands: []*cli.Command{
 			{
