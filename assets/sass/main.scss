@@ -1,11 +1,31 @@
 // Style Guide: https://howto.rc3.world/styleguide.html
 
+// Colors
+$palette-body: #FFFFFF;
+$palette-background: #100E23;
+$palette-a: #B239FF;
+$palette-a-2: #670295;
+$palette-a-3: #440069;
+$palette-a-4: #240038;
+$palette-b: #B600E7;
+$palette-b-2: #41008B;
+$palette-b-3: #2A005E;
+$palette-b-4: #14002F;
+$palette-c: #05B9EC;
+$palette-c-2: #0076A9;
+$palette-c-3: #025D84;
+$palette-c-4: #002A3A;
+
 // 1. Custom vars.
-$global-color: #FFFFFF !default;
-$global-background: #100E23;
-$global-secondary-background: #240038;
+$global-color: $palette-body !default;
+$global-background: $palette-background;
+$global-secondary-background: $palette-a-4;
+$global-emphasis-color: $palette-c;
 
 $global-font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$base-heading-font-family: "Orbitron", $global-font-family !default;
+$base-heading-text-transform: uppercase;
+
 
 // 2. Import default variables and available mixins.
 @import "../uikit/src/scss/variables-theme.scss";
