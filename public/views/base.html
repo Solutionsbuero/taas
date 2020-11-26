@@ -29,15 +29,24 @@
 		<meta property="og:type" content="website" />
 	</head>
 	<body>
+		<div class="uk-container uk-width-6-7 cs-header">
+			<div class="uk-container uk-padding-small uk-hidden@s">
+				<img width="80" height="80" alt="" class="uk-align-center" uk-img="data-src:/img/logo.svg" uk-svg>
+			</div>
+			<div class="uk-container uk-padding-small uk-visible@s">
+				<img width="100" height="100" alt="" uk-img="data-src:/img/logo.svg" class="uk-align-center" uk-svg>
+			</div>
+			<hr>
+		</div>
+
 		<section id="content" class="uk-section uk-section-default">
-			<div class="uk-container uk-width-5-6@s uk-width-3-4@m uk-width-2-3@xl">
-				<!--<div class="uk-center  uk-width-2-3@m" uk-grid>-->
+			<div class="uk-container uk-width-5-6@s uk-width-5-6@m uk-width-3-4@l">
 				<div class="">
 					{{ template "content" . }}
 				</div>
-				</div>
 		</section>
 	</body>
+	<div uk-height-viewport="expand: true"></div>
 	{{ template "footer" }}
 </html>
 {{ end }}
