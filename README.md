@@ -11,3 +11,8 @@ Tinfoil Colloquy's cloud based train-as-a-service solution for the rc3. This sof
 ```shell script
 git clone https://github.com/Solutionsbuero/ttrn.git --recursive
 ```
+
+
+## MQTT
+
+You find the MQTT API documentation in the [mqtt.md](mqtt.md) file.

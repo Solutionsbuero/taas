@@ -4,7 +4,10 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 ## Train
 
-There are _three_ trains, identified with the numbers 0, 1 and 2.
+**Description:** There are _three_ trains, identified with the numbers 0, 1 and 2.
+
+**Topic:** `/train/{:id}/speed` 
+
 
 ### Train Speed
 
@@ -30,7 +33,25 @@ There are _three_ trains, identified with the numbers 0, 1 and 2.
 
 ### Train Position
 
-**Topic:** `/train/{:id}/position/{:position}` 
+**Description:** There are three (maybe four) checkpoints which update the position of the trains. The checkpoints are numbered starting form 0. If a train passes a checkpoint the topic will be updated with the number of the checkpoint.
 
+**Topic:** `/train/{:id}/position/` 
+
+```json
+{
+	"type": "object",
+	"properties" : {
+		"position": {
+			"type": "integer",
+			"enum": [0, 1, 2],
+		}
+	}
+}
+```
+
+
+## Turnout
+
+There are at max 10 turnouts. Identified by numbering them starting at 0. Each switch can have two different positions: _straight_ (the train will continue it's current direction) and _diverging_ (the train will branch of the straight). Straight is _0_, diverging is _1_.
 
 
