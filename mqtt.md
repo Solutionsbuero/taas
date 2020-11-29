@@ -11,7 +11,7 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 ### Train Speed
 
-**Description:** Sets the speed of the train. Speed is a integer ranging between -5 (reverse in full speed) 0 (stop) and 5 (full speed ahead).
+**Description:** Sets the speed of the train. Speed is a integer ranging between -4 (reverse in full speed) 0 (stop) and 4 (full speed ahead).
 
 **Topic:** `/train/{:id}/speed` 
 
@@ -23,8 +23,8 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 	"properties" : {
 		"speed": {
 			"type": "integer",
-			"minimum": -5,
-			"maximum": 5
+			"minimum": -4,
+			"maximum": 4
 		}
 	}
 }
@@ -35,7 +35,7 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 **Description:** There are three (maybe four) checkpoints which update the position of the trains. The checkpoints are numbered starting form 0. If a train passes a checkpoint the topic will be updated with the number of the checkpoint.
 
-**Topic:** `/train/{:id}/position/` 
+**Topic:** `/train/{:id}/position` 
 
 ```json
 {
@@ -52,6 +52,18 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 ## Turnout
 
-There are at max 10 turnouts. Identified by numbering them starting at 0. Each switch can have two different positions: _straight_ (the train will continue it's current direction) and _diverging_ (the train will branch of the straight). Straight is _0_, diverging is _1_.
+There are at max 10 turnouts. Identified by numbering them starting at 0. Each switch can have two different positions: _straight_ (the train will continue it's current direction) and _diverging_ (the train will branch of the straight). Straight is represented by _0_, diverging as _1_.
 
+**Topic:** `/turnout/{:id}/position`
 
+```json
+{
+	"type": "object",
+	"properties": {
+		"position": {
+			"type": "integer",
+			"enum": [0, 1],
+		}
+	}
+}
+```
