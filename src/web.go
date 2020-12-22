@@ -74,6 +74,5 @@ func getIndex(c echo.Context) error {
 
 // getImpressum handles the GET request on /impressum.
 func getImpressum(c echo.Context) error {
-	fmt.Println("hoi")
 	return c.Render(http.StatusOK, "impressum.html", map[string]interface{}{})
 }

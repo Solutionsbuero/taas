@@ -28,6 +28,10 @@ $global-small-font-size: 0.675rem !default;
 $global-font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $base-heading-font-family: "Orbitron", $global-font-family !default;
 $base-heading-text-transform: uppercase;
+$base-strong-font-weight: 600;
+
+$global-link-color: $palette-c;
+$global-link-hover-color: $palette-c;
 
 // 2. Import default variables and available mixins.
 @import "../uikit/src/scss/variables-theme.scss";
