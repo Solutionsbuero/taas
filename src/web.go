@@ -64,9 +64,16 @@ func (w *Web) Run() {
 // addRoutes adds the routes to the echo element.
 func addRoutes(e *echo.Echo, cfg Config) {
 	e.GET("/", getIndex)
+	e.GET("/impressum", getImpressum)
 }
 
 // getIndex handles the GET request on /.
 func getIndex(c echo.Context) error {
 	return c.Render(http.StatusOK, "index.html", map[string]interface{}{})
+}
+
+// getImpressum handles the GET request on /impressum.
+func getImpressum(c echo.Context) error {
+	fmt.Println("hoi")
+	return c.Render(http.StatusOK, "impressum.html", map[string]interface{}{})
 }
