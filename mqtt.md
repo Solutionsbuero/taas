@@ -19,14 +19,9 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 ```json
 {
-	"type": "object",
-	"properties" : {
-		"speed": {
-			"type": "integer",
-			"minimum": -4,
-			"maximum": 4
-		}
-	}
+	"type": "integer",
+	"minimum": -4,
+	"maximum": 4
 }
 ```
 
@@ -39,13 +34,8 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 ```json
 {
-	"type": "object",
-	"properties" : {
-		"position": {
-			"type": "integer",
-			"enum": [0, 1, 2],
-		}
-	}
+	"type": "integer",
+	"enum": [0, 1, 2],
 }
 ```
 
@@ -58,12 +48,7 @@ There are at max 10 turnouts. Identified by numbering them starting at 0. Each s
 
 ```json
 {
-	"type": "object",
-	"properties": {
-		"position": {
-			"type": "integer",
-			"enum": [0, 1],
-		}
-	}
+	"type": "integer",
+	"enum": [0, 1],
 }
 ```
