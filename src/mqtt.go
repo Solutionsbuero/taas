@@ -33,7 +33,6 @@ func NewMqtt(cfg Config, turnoutPositionEvents chan TurnoutPositionEvent, trainS
 	opt.SetPassword(cfg.MqttPassword)
 	opt.OnConnect = rsl.connectHandler
 	opt.OnConnectionLost = rsl.connectionLostHandler
-	// opt.SetDefaultPublishHandler(rsl.defaultHandler)
 
 	rsl.broker = mqtt.NewClient(opt)
 	return rsl
@@ -47,6 +46,8 @@ func (m Mqtt) Run() {
 	}
 	m.init()
 	m.broker.Subscribe("/train/+/position", 1, m.trainPositionHandler)
+	go m.listenForTurnoutPositionEvents()
+	go m.listenForTrainSpeedEvents()
 }
 
 // init defaults all topics.
@@ -62,10 +63,6 @@ func (m Mqtt) init() {
 	m.publish("/turnout/5/position", "0")
 }
 
-func (m Mqtt) defaultHandler(client mqtt.Client, msg mqtt.Message) {
-	logrus.Warnf("got new unhandled mqtt message on topic %s, with payload %s", msg.Topic(), msg.Payload())
-}
-
 func (m Mqtt) connectHandler(client mqtt.Client) {
 	logrus.Info("mqtt connected")
 }
@@ -74,9 +71,17 @@ func (m Mqtt) connectionLostHandler(client mqtt.Client, err error) {
 	logrus.Errorf("mqtt connection lost %s", err)
 }
 
-func (m Mqtt) publish(topic string, payload interface{}) {
-	if token := m.broker.Publish(topic, 1, true, payload); token.Wait() && token.Error() != nil {
-		logrus.Errorf("couldn't publish to topic %s with payload %+v", topic, payload)
+func (m Mqtt) listenForTurnoutPositionEvents() {
+	for {
+		event := <- m.turnoutPositionEvents
+		m.publish(fmt.Sprintf("/turnout/%d/position", event.Id), event.NewPosition)
+	}
+}
+
+func (m Mqtt) listenForTrainSpeedEvents() {
+	for {
+		event := <- m.trainSpeedEvents 
+		m.publish(fmt.Sprintf("/train/%d/speed", event.Id), event.NewSpeed)
 	}
 }
 
@@ -106,6 +111,17 @@ func (m Mqtt) trainPositionHandler(client mqtt.Client, msg mqtt.Message) {
 	if position < 0 || position > 3 {
 		logrus.Errorf("received train-position %d isn't valid", position)
 	}
-	
 	logrus.Debugf("received new position %d for train %d", position, id)
+
+	m.trainPositionEvents <- TrainPositionEvent {
+		Id: id,
+		NewPosition: position,
+	}
 }
+
+func (m Mqtt) publish(topic string, payload interface{}) {
+	if token := m.broker.Publish(topic, 1, true, payload); token.Wait() && token.Error() != nil {
+		logrus.Errorf("couldn't publish to topic %s with payload %+v", topic, payload)
+	}
+}
+
