@@ -12,6 +12,7 @@ import (
 	echoLog "github.com/labstack/gommon/log"
 	"github.com/neko-neko/echo-logrus/v2"
 	"github.com/neko-neko/echo-logrus/v2/log"
+	"gorm.io/gorm"
 )
 
 // TemplateRenderer implements the Echo renderer interface.
@@ -29,13 +30,16 @@ func (t TemplateRenderer) Render(w io.Writer, name string, data interface{}, c e
 
 // Web handles the web view stuff.
 type Web struct {
-	cfg  Config
-	echo *echo.Echo
+	cfg           Config
+	echo          *echo.Echo
+	db            *gorm.DB
+	turnoutEvents chan TurnoutEvent
+	trainEvents   chan TrainEvent
 }
 
 // NewWeb returns a new instance of the Web struct. When debug parameter is true, debugging
 // is enabled.
-func NewWeb(cfg Config, doDebug bool) Web {
+func NewWeb(cfg Config, doDebug bool, db *gorm.DB, turnoutEvents chan TurnoutEvent, trainEvents chan TrainEvent) Web {
 	e := echo.New()
 
 	if doDebug {
@@ -55,8 +59,11 @@ func NewWeb(cfg Config, doDebug bool) Web {
 	addRoutes(e, cfg)
 
 	return Web{
-		cfg:  cfg,
-		echo: e,
+		cfg:           cfg,
+		echo:          e,
+		db:            db,
+		turnoutEvents: turnoutEvents,
+		trainEvents:   trainEvents,
 	}
 }
 

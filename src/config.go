@@ -11,10 +11,8 @@ import (
 type Config struct {
 	// Port is the port where the page is served on localhost.
 	Port int `json:"port"`
-	// RedisHost is the hostname of the Redis service.
-	RedisHost string `json:"redis_host"`
-	// RedisPort is the port of the Redis service.
-	RedisPort int `json:"redis_port"`
+	// Db is the path to the sqlite db.
+	Db string `json:"db"`
 	// MqttHost is the hostname of the the MQTT broker.
 	MqttHost string `json:"mqtt_host"`
 	// MqttPort is the port of the MQTT broker.
@@ -29,8 +27,7 @@ type Config struct {
 func DefaultConfig() Config {
 	return Config{
 		Port:         8000,
-		RedisHost:    "127.0.0.1",
-		RedisPort:    6379,
+		Db:           "data.db",
 		MqttHost:     "127.0.0.1",
 		MqttPort:     8883,
 		MqttUser:     "mqtt-usr",
