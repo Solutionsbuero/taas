@@ -49,6 +49,6 @@ There are at max 10 turnouts. Identified by numbering them starting at 0. Each s
 ```json
 {
 	"type": "integer",
-	"enum": [0, 1],
+	"enum": [-1, 1],
 }
 ```
