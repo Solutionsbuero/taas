@@ -29,7 +29,7 @@ func DefaultConfig() Config {
 		Port:         8000,
 		Db:           "data.db",
 		MqttHost:     "127.0.0.1",
-		MqttPort:     8883,
+		MqttPort:     1883,
 		MqttUser:     "mqtt-usr",
 		MqttPassword: "mqtt-pwd",
 	}

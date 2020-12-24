@@ -33,13 +33,14 @@ type Web struct {
 	cfg           Config
 	echo          *echo.Echo
 	db            *gorm.DB
-	turnoutEvents chan TurnoutEvent
-	trainEvents   chan TrainEvent
+	turnoutPositionEvents chan TurnoutPositionEvent
+	trainSpeedEvents   chan TrainSpeedEvent
+	trainPositionEvents chan TrainPositionEvent
 }
 
 // NewWeb returns a new instance of the Web struct. When debug parameter is true, debugging
 // is enabled.
-func NewWeb(cfg Config, doDebug bool, db *gorm.DB, turnoutEvents chan TurnoutEvent, trainEvents chan TrainEvent) Web {
+func NewWeb(cfg Config, doDebug bool, db *gorm.DB, turnoutPositionEvents chan TurnoutPositionEvent, trainSpeedEvents chan TrainSpeedEvent, trainPositionEvents chan TrainPositionEvent) Web {
 	e := echo.New()
 
 	if doDebug {
@@ -62,8 +63,9 @@ func NewWeb(cfg Config, doDebug bool, db *gorm.DB, turnoutEvents chan TurnoutEve
 		cfg:           cfg,
 		echo:          e,
 		db:            db,
-		turnoutEvents: turnoutEvents,
-		trainEvents:   trainEvents,
+		turnoutPositionEvents: turnoutPositionEvents,
+		trainSpeedEvents:   trainSpeedEvents,
+		trainPositionEvents: trainPositionEvents,
 	}
 }
 

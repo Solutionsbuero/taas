@@ -8,11 +8,15 @@ import (
 
 // Run runs the server application.
 func Run(cfg Config, doDebug bool) {
-	turnoutEvents := make(chan TurnoutEvent)
-	trainEvents := make(chan TrainEvent)
+	if doDebug {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
+	turnoutPositionEvents := make(chan TurnoutPositionEvent)
+	trainSpeedEvents := make(chan TrainSpeedEvent)
+	trainPositionEvents := make(chan TrainPositionEvent)
 
-	web := NewWeb(cfg, doDebug, openDb(cfg), turnoutEvents, trainEvents)
-	mqtt := NewMqtt(cfg, turnoutEvents, trainEvents)
+	web := NewWeb(cfg, doDebug, openDb(cfg), turnoutPositionEvents, trainSpeedEvents, trainPositionEvents)
+	mqtt := NewMqtt(cfg, turnoutPositionEvents, trainSpeedEvents, trainPositionEvents)
 
 	go mqtt.Run()
 	web.Run()
