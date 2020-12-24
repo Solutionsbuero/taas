@@ -6,6 +6,8 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	echoLog "github.com/labstack/gommon/log"
 	"github.com/neko-neko/echo-logrus/v2"
@@ -43,6 +45,8 @@ func NewWeb(cfg Config, doDebug bool) Web {
 	}
 	e.Logger = log.Logger()
 	e.Use(middleware.Logger())
+
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte("lala"))))
 
 	e.Renderer = &TemplateRenderer{
 		tpls: template.Must(template.ParseGlob("public/views/*.html")),

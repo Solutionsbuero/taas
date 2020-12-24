@@ -1,3 +1,7 @@
+let speed = -3;
+
+// HELPERS
+
 function ready(fn) {
   if (document.readyState != 'loading'){
     fn();
@@ -6,15 +10,44 @@ function ready(fn) {
   }
 }
 
-function registerEventListeners() {
-	document.addEventListener('click', function (event) {
-		// if (!event.target.closest('.click-me')) return;
-		console.log(event.target);
-	}, false);
+function set_status(message) {
+	document.getElementById("status").innerHTML = message;
 }
+
+
+// HANDLERS
 
 function on_turnout_click(id) {
-	console.log("hoi" + id)
+	console.log("hoi" + id);
 }
 
-ready(registerEventListeners())
+function on_turnout_over(id) {
+	set_status("Change the position of turnout " + id + ".");
+}
+
+function on_forward_click() {
+	console.log("forward");
+	document.getElementById("train-speed").textContent = "-4";
+}
+
+function on_forward_over() {
+	set_status("Increase speed forward by one");
+}
+
+function on_backward_click() {
+	console.log("forward");
+}
+
+function on_backward_over() {
+	set_status("Increase speed backward by one");
+}
+
+function on_mouse_out() {
+	set_status("...");
+}
+
+function on_ready() {
+	document.getElementById("train-speed").textContent = "4";
+}
+
+ready(on_ready());
