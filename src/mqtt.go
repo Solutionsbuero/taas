@@ -12,18 +12,18 @@ import (
 
 // Mqtt bundles the MQTT related stuff.
 type Mqtt struct {
-	broker        mqtt.Client
+	broker                mqtt.Client
 	turnoutPositionEvents chan TurnoutPositionEvent
-	trainSpeedEvents   chan TrainSpeedEvent
-	trainPositionEvents chan TrainPositionEvent
+	trainSpeedEvents      chan TrainSpeedEvent
+	trainPositionEvents   chan TrainPositionEvent
 }
 
 // NewMqtt returns a new Mqtt instance.
 func NewMqtt(cfg Config, turnoutPositionEvents chan TurnoutPositionEvent, trainSpeedEvents chan TrainSpeedEvent, trainPositionEvents chan TrainPositionEvent) Mqtt {
 	rsl := Mqtt{
 		turnoutPositionEvents: turnoutPositionEvents,
-		trainSpeedEvents:   trainSpeedEvents,
-		trainPositionEvents: trainPositionEvents,
+		trainSpeedEvents:      trainSpeedEvents,
+		trainPositionEvents:   trainPositionEvents,
 	}
 
 	opt := mqtt.NewClientOptions()
@@ -55,12 +55,12 @@ func (m Mqtt) init() {
 	m.publish("/train/0/speed", "0")
 	m.publish("/train/1/speed", "0")
 	m.publish("/train/2/speed", "0")
-	m.publish("/turnout/0/position", "0")
-	m.publish("/turnout/1/position", "0")
-	m.publish("/turnout/2/position", "0")
-	m.publish("/turnout/3/position", "0")
-	m.publish("/turnout/4/position", "0")
-	m.publish("/turnout/5/position", "0")
+	m.publish("/turnout/0/position", "1")
+	m.publish("/turnout/1/position", "1")
+	m.publish("/turnout/2/position", "1")
+	m.publish("/turnout/3/position", "1")
+	m.publish("/turnout/4/position", "1")
+	m.publish("/turnout/5/position", "1")
 }
 
 func (m Mqtt) connectHandler(client mqtt.Client) {
@@ -73,14 +73,14 @@ func (m Mqtt) connectionLostHandler(client mqtt.Client, err error) {
 
 func (m Mqtt) listenForTurnoutPositionEvents() {
 	for {
-		event := <- m.turnoutPositionEvents
+		event := <-m.turnoutPositionEvents
 		m.publish(fmt.Sprintf("/turnout/%d/position", event.Id), event.NewPosition)
 	}
 }
 
 func (m Mqtt) listenForTrainSpeedEvents() {
 	for {
-		event := <- m.trainSpeedEvents 
+		event := <-m.trainSpeedEvents
 		m.publish(fmt.Sprintf("/train/%d/speed", event.Id), event.NewSpeed)
 	}
 }
@@ -89,7 +89,7 @@ func (m Mqtt) trainPositionHandler(client mqtt.Client, msg mqtt.Message) {
 	logrus.Debugf("got train position update on topic %s with payload %s", msg.Topic(), msg.Payload())
 	positionRe := regexp.MustCompile(`/train/(\d{1})/position`)
 	rsl := positionRe.FindAllStringSubmatch(msg.Topic(), -1)
-	if len(rsl) != 1 && len(rsl[0]) !=2 {
+	if len(rsl) != 1 && len(rsl[0]) != 2 {
 		logrus.Errorf("received topic %s has a illegal format for a train position topic", msg.Topic())
 		return
 	}
@@ -113,8 +113,8 @@ func (m Mqtt) trainPositionHandler(client mqtt.Client, msg mqtt.Message) {
 	}
 	logrus.Debugf("received new position %d for train %d", position, id)
 
-	m.trainPositionEvents <- TrainPositionEvent {
-		Id: id,
+	m.trainPositionEvents <- TrainPositionEvent{
+		Id:          id,
 		NewPosition: position,
 	}
 }
@@ -124,4 +124,3 @@ func (m Mqtt) publish(topic string, payload interface{}) {
 		logrus.Errorf("couldn't publish to topic %s with payload %+v", topic, payload)
 	}
 }
-
