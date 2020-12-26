@@ -42,7 +42,7 @@ This is the MQTT API for the ttrn project. All changes have to be coordinated wi
 
 ## Turnout
 
-There are at max 10 turnouts. Identified by numbering them starting at 0. Each switch can have two different positions: _straight_ (the train will continue it's current direction) and _diverging_ (the train will branch of the straight). Straight is represented by _0_, diverging as _1_.
+There are at max 10 turnouts. Identified by numbering them starting at 0. Each switch can have two different positions: _straight_ (the train will continue it's current direction) and _diverging_ (the train will branch of the straight). Straight is represented by _1_, diverging as _-1_.
 
 **Topic:** `/turnout/{:id}/position`
 
