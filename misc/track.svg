@@ -399,10 +399,10 @@
    id="namedview3631"
    showgrid="false"
    inkscape:zoom="0.35355339"
-   inkscape:cx="89.438358"
+   inkscape:cx="768.26087"
    inkscape:cy="835.41221"
-   inkscape:window-x="2196"
-   inkscape:window-y="117"
+   inkscape:window-x="2033"
+   inkscape:window-y="54"
    inkscape:window-maximized="0"
    inkscape:current-layer="track-map"
    fit-margin-top="0"
@@ -1029,7 +1029,7 @@
    y="1445.7096"
    x="224.31033"
    inkscape:label="#text2473"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;text-anchor:start"
+     style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Medium';text-align:start;text-anchor:start"
      id="tspan12591">0</tspan></text>
 <g
    transform="matrix(0.5,0,0,0.5,392.71813,846.08911)"
@@ -5295,7 +5295,8 @@
    style="fill:none;stroke:#ffffff;stroke-width:15.09458733;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    onclick="on_turnout_click(0)"
    onmouseover="on_turnout_over(0)"
-   onmouseout="on_mouse_out()" /><g
+   onmouseout="on_mouse_out()"
+   onload="on_load_ele(0" /><g
    id="g13889"
    transform="matrix(1.677177,0,0,1.677177,-820.84122,-627.70022)"><path
      onmouseout="on_mouse_out()"
@@ -5341,7 +5342,7 @@
    onclick="on_turnout_click(2)"
    onmouseover="on_turnout_over(2)"
    onmouseout="on_mouse_out()"
-   onload="on_svg_load()" /><g
+   onload="" /><g
    id="g13896"
    transform="matrix(1.677177,0,0,1.677177,-433.24833,-505.79951)"><path
      onmouseout="on_mouse_out()"
@@ -5446,7 +5447,7 @@
    y="1445.7096"
    x="1130.8887"
    inkscape:label="#text2473"><tspan
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;text-anchor:start"
+     style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Medium';text-align:start;text-anchor:start"
      id="tspan12591-9">0</tspan></text>
 <text
    xml:space="preserve"

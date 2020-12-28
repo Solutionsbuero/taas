@@ -12,4 +12,6 @@ require (
 	github.com/neko-neko/echo-logrus/v2 v2.0.1
 	github.com/sirupsen/logrus v1.7.0
 	github.com/urfave/cli/v2 v2.3.0
+	gorm.io/driver/sqlite v1.1.4
+	gorm.io/gorm v1.20.9
 )

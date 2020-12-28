@@ -999,7 +999,7 @@
    style="font-size:159.03799438px;font-family:Montserrat-Regular, Montserrat;fill:#05b9c0"
    id="train-1-speed"><tspan
      id="tspan12591"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;text-anchor:start">0</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Medium';text-align:start;text-anchor:start">0</tspan></text>
 <g
    id="g1635-4-9-3-8-3-3"
    transform="matrix(0.5,0,0,0.5,392.71813,846.08911)">
@@ -4996,7 +4996,7 @@
    style="fill:none;stroke:#ffffff;stroke-width:15.09458733;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    d="m 785.93733,50.000002 h 33.92391 l 45.88555,36.258321"
    id="tu-0-d" /><path
-   onload="on_load_ele(0)"
+   onload="on_load_ele(0"
    onmouseout="on_mouse_out()"
    onmouseover="on_turnout_over(0)"
    onclick="on_turnout_click(0)"
@@ -5138,7 +5138,7 @@
    style="font-size:159.03799438px;font-family:Montserrat-Regular, Montserrat;clip-rule:evenodd;fill:#05b9c0;fill-rule:evenodd"
    id="train-2-speed"><tspan
      id="tspan12591-9"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:Montserrat;text-align:start;text-anchor:start">0</tspan></text>
+     style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-family:Montserrat;-inkscape-font-specification:'Montserrat Medium';text-align:start;text-anchor:start">0</tspan></text>
 <text
    id="text12589-6"
    y="1282.5236"
