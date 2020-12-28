@@ -60,7 +60,6 @@ func (m Mqtt) init() {
 	m.publish("/turnout/2/position", "1")
 	m.publish("/turnout/3/position", "1")
 	m.publish("/turnout/4/position", "1")
-	m.publish("/turnout/5/position", "1")
 }
 
 func (m Mqtt) connectHandler(client mqtt.Client) {

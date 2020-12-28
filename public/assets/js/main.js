@@ -58,7 +58,21 @@ function on_mouse_out() {
 }
 
 function on_ready() {
-	// document.getElementById("train-0-speed").textContent = "4";
+	let loc = window.location;
+	let proto = "ws:";
+	if (loc.protocol === "https:") {
+		proto = "wss:";
+	}
+	let url = proto + "//" + loc.host + loc.pathname + "ws";
+	ws = new WebSocket(url);
+	ws.onopen = function() {
+		console.log("connected to websocket at " + url);
+	}
+	ws.onmessage = on_frontend_ws;
+}
+
+function on_frontend_ws(evt) {
+	console.log(evt);
 }
 
 ready(on_ready());

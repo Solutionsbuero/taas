@@ -58,6 +58,30 @@ func (s *State) SwitchTurnout(id int) (int, error) {
 	return nPos, nil
 }
 
+// FrontendState represents the state for the frontend.
+type FrontendState struct {
+	Train1Speed      int `json:"train_1_speed"`
+	Train2Speed      int `json:"train_2_speed"`
+	Turnout0Position int `json:"turnout_1_position"`
+	Turnout1Position int `json:"turnout_2_position"`
+	Turnout2Position int `json:"turnout_3_position"`
+	Turnout3Position int `json:"turnout_4_position"`
+	Turnout4Position int `json:"turnout_5_position"`
+}
+
+// FromState returns a FrontendState instance from a State instance.
+func FromState(s State) FrontendState {
+	return FrontendState{
+		Train1Speed:      s.TrainSpeeds[0],
+		Train2Speed:      s.TrainSpeeds[1],
+		Turnout0Position: s.TurnoutPositions[0],
+		Turnout1Position: s.TurnoutPositions[1],
+		Turnout2Position: s.TurnoutPositions[2],
+		Turnout3Position: s.TurnoutPositions[3],
+		Turnout4Position: s.TurnoutPositions[4],
+	}
+}
+
 // TurnoutPositionEvent is a event on the position change of a turnaout.
 type TurnoutPositionEvent struct {
 	// Id of the turnout.

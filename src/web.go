@@ -1,6 +1,7 @@
 package ttrn
 
 import (
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
@@ -8,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/sessions"
+	"github.com/gorilla/websocket"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	echoLog "github.com/labstack/gommon/log"
@@ -34,9 +36,11 @@ type Web struct {
 	cfg                   Config
 	state                 State
 	echo                  *echo.Echo
+	upgrader              websocket.Upgrader
 	turnoutPositionEvents chan TurnoutPositionEvent
 	trainSpeedEvents      chan TrainSpeedEvent
 	trainPositionEvents   chan TrainPositionEvent
+	updateFrontend        chan FrontendState
 }
 
 // NewWeb returns a new instance of the Web struct. When debug parameter is true, debugging
@@ -63,6 +67,7 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 		cfg:                   cfg,
 		echo:                  e,
 		state:                 DefaultState(),
+		upgrader:              websocket.Upgrader{},
 		turnoutPositionEvents: turnoutPositionEvents,
 		trainSpeedEvents:      trainSpeedEvents,
 		trainPositionEvents:   trainPositionEvents,
@@ -83,6 +88,7 @@ func (w Web) addRoutes(e *echo.Echo, cfg Config) {
 	e.GET("/impressum", getImpressum)
 	e.POST("/api/turnout/:id/change", w.postTournoutChange)
 	e.POST("/api/train/:id/speed", w.postTrainSpeed)
+	e.GET("/ws", w.websocket)
 }
 
 // getIndex handles the GET request on /.
@@ -93,6 +99,32 @@ func getIndex(c echo.Context) error {
 // getImpressum handles the GET request on /impressum.
 func getImpressum(c echo.Context) error {
 	return c.Render(http.StatusOK, "impressum.html", map[string]interface{}{})
+}
+
+// websocket provides the websocket duh.
+func (w *Web) websocket(c echo.Context) error {
+	ws, err := w.upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		logrus.Error(err)
+		return err
+	}
+	defer ws.Close()
+
+	for {
+		state := <-w.updateFrontend
+		data, err := json.Marshal(state)
+		if err != nil {
+			err := fmt.Errorf("couldn't marshal state to JSON, %s", err)
+			logrus.Error(err)
+			return err
+		}
+
+		if err := ws.WriteMessage(websocket.TextMessage, data); err != nil {
+			err := fmt.Errorf("error occured while write status message to websocket, %s", err)
+			logrus.Error(err)
+			return err
+		}
+	}
 }
 
 // postTournoutPosition handles the POST request on /api/tunrout/.id/position.
