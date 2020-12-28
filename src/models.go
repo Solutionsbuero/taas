@@ -1,6 +1,8 @@
 package ttrn
 
 import (
+	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -16,26 +18,44 @@ type User struct {
 
 // State represents the current state of the application.
 type State struct {
-	Train1Speed      int
-	Train2Speed      int
-	Turnout0Position int
-	Turnout1Position int
-	Turnout2Position int
-	Turnout3Position int
-	Turnout4Position int
+	TrainSpeeds      [2]int
+	TurnoutPositions [5]int
 }
 
 // DefaultState returns the initial state.
 func DefaultState() State {
 	return State{
-		Train1Speed: 0,
-		Train2Speed: 0,
-		Turnout0Position: 1,
-		Turnout1Position: 1,
-		Turnout2Position: 1,
-		Turnout3Position: 1,
-		Turnout4Position: 1,
+		TrainSpeeds:      [2]int{0, 0},
+		TurnoutPositions: [5]int{1, 1, 1, 1, 1},
 	}
+}
+
+// ChangeTrainSpeed changes the speed of a train by a given delta and returns the new
+// speed value.
+func (s *State) ChangeTrainSpeed(id int, delta int) (int, error) {
+	if id < 1 || id > 2 {
+		return 0, fmt.Errorf("got invalid train id %d", id)
+	}
+	cSpeed := s.TrainSpeeds[id-1]
+	nSpeed := cSpeed + delta
+	if nSpeed < -4 || nSpeed > 4 {
+		return cSpeed, nil
+	}
+	s.TrainSpeeds[id-1] = nSpeed
+	return nSpeed, nil
+}
+
+// SwitchTurnout switches the turnout to the other position and returns the new state.
+func (s *State) SwitchTurnout(id int) (int, error) {
+	if id < 0 || id > 4 {
+		return 0, fmt.Errorf("got invalid turnout id %d", id)
+	}
+	nPos := -1
+	if s.TurnoutPositions[id] == -1 {
+		nPos = 1
+	}
+	s.TurnoutPositions[id] = nPos
+	return nPos, nil
 }
 
 // TurnoutPositionEvent is a event on the position change of a turnaout.

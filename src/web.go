@@ -81,7 +81,7 @@ func (w *Web) Run() {
 func (w Web) addRoutes(e *echo.Echo, cfg Config) {
 	e.GET("/", getIndex)
 	e.GET("/impressum", getImpressum)
-	e.POST("/api/turnout/:id/position", w.postTournoutPosition)
+	e.POST("/api/turnout/:id/change", w.postTournoutChange)
 	e.POST("/api/train/:id/speed", w.postTrainSpeed)
 }
 
@@ -95,55 +95,35 @@ func getImpressum(c echo.Context) error {
 	return c.Render(http.StatusOK, "impressum.html", map[string]interface{}{})
 }
 
-type turnoutPositionRequest struct {
-	Position int `json:"position"`
-}
-
 // postTournoutPosition handles the POST request on /api/tunrout/.id/position.
-func (w Web) postTournoutPosition(c echo.Context) error {
+func (w *Web) postTournoutChange(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		err := fmt.Errorf("couldn't parse id parameter %s as int", c.Param("id"))
 		logrus.Error(err)
 		return err
 	}
-	if id < 0 || id > 4 {
-		err := fmt.Errorf("got invalid turnout id %d", id)
-		logrus.Error(err)
-		return err
-	}
-	d := new(turnoutPositionRequest)
-	if err := c.Bind(d); err != nil {
-		err := fmt.Errorf("fail to bind turnout position data, %s", err)
-		logrus.Error(err)
-		return err
-	}
-	if d.Position != -1 && d.Position != 1 {
-		err := fmt.Errorf("%d is not a valid position for a turnout", d.Position)
+	nPos, err := w.state.SwitchTurnout(id)
+	if err != nil {
 		logrus.Error(err)
 		return err
 	}
 	w.turnoutPositionEvents <- TurnoutPositionEvent{
 		Id:          id,
-		NewPosition: d.Position,
+		NewPosition: nPos,
 	}
 	return nil
 }
 
 type trainSpeedRequest struct {
-	Speed int `json:"speed"`
+	SpeedDelta int `json:"speed_delta"`
 }
 
 // postTrainSpeed handles the POST request on /api/train/speed.
-func (w Web) postTrainSpeed(c echo.Context) error {
+func (w *Web) postTrainSpeed(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		err := fmt.Errorf("couldn't parse id parameter %s as int", c.Param("id"))
-		logrus.Error(err)
-		return err
-	}
-	if id < 1 || id > 2 {
-		err := fmt.Errorf("got invalid train id %d", id)
 		logrus.Error(err)
 		return err
 	}
@@ -153,14 +133,14 @@ func (w Web) postTrainSpeed(c echo.Context) error {
 		logrus.Error(err)
 		return err
 	}
-	if d.Speed < -4 || d.Speed > 4 {
-		err := fmt.Errorf("%d is not a valid speed for a train", d.Speed)
+	nSpeed, err := w.state.ChangeTrainSpeed(id, d.SpeedDelta)
+	if err != nil {
 		logrus.Error(err)
 		return err
 	}
 	w.trainSpeedEvents <- TrainSpeedEvent{
 		Id:       id,
-		NewSpeed: d.Speed,
+		NewSpeed: nSpeed,
 	}
 	return nil
 }

@@ -26,7 +26,8 @@ function post_json(url, data) {
 // HANDLERS
 
 function on_turnout_click(id) {
-	console.log("hoi" + id);
+	console.log("turnout " + id + " change");
+	post_json("/api/turnout/" + id + "/change", {})
 }
 
 function on_turnout_over(id) {
@@ -34,8 +35,9 @@ function on_turnout_over(id) {
 }
 
 function on_forward_click(id) {
-	console.log("forward");
-	document.getElementById("train-1-speed").textContent = "-4";
+	console.log("train " + id + " speed +1");
+	post_json("/api/train/" + id + "/speed", {"speed_delta": 1})
+	// document.getElementById("train-1-speed").textContent = "-4";
 }
 
 function on_forward_over(id) {
@@ -43,7 +45,8 @@ function on_forward_over(id) {
 }
 
 function on_backward_click(id) {
-	console.log("forward");
+	console.log("train " + id + " speed -1");
+	post_json("/api/train/" + id + "/speed", {"speed_delta": -1})
 }
 
 function on_backward_over(id) {

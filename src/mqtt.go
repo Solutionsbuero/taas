@@ -74,14 +74,14 @@ func (m Mqtt) connectionLostHandler(client mqtt.Client, err error) {
 func (m Mqtt) listenForTurnoutPositionEvents() {
 	for {
 		event := <-m.turnoutPositionEvents
-		m.publish(fmt.Sprintf("/turnout/%d/position", event.Id), event.NewPosition)
+		m.publish(fmt.Sprintf("/turnout/%d/position", event.Id), strconv.Itoa(event.NewPosition))
 	}
 }
 
 func (m Mqtt) listenForTrainSpeedEvents() {
 	for {
 		event := <-m.trainSpeedEvents
-		m.publish(fmt.Sprintf("/train/%d/speed", event.Id), event.NewSpeed)
+		m.publish(fmt.Sprintf("/train/%d/speed", event.Id), strconv.Itoa(event.NewSpeed))
 	}
 }
 
@@ -119,8 +119,8 @@ func (m Mqtt) trainPositionHandler(client mqtt.Client, msg mqtt.Message) {
 	}
 }
 
-func (m Mqtt) publish(topic string, payload interface{}) {
+func (m Mqtt) publish(topic string, payload string) {
 	if token := m.broker.Publish(topic, 1, true, payload); token.Wait() && token.Error() != nil {
-		logrus.Errorf("couldn't publish to topic %s with payload %+v", topic, payload)
+		logrus.Errorf("couldn't publish to topic %s with payload %+v, %s", topic, payload, token.Error())
 	}
 }
