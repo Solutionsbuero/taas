@@ -89,6 +89,7 @@ func (w *Web) Run() {
 func (w Web) addRoutes(e *echo.Echo, cfg Config) {
 	e.GET("/", getIndex)
 	e.GET("/impressum", getImpressum)
+	e.GET("/stream", getStream)
 	e.POST("/api/turnout/:id/change", w.postTournoutChange)
 	e.POST("/api/train/:id/speed", w.postTrainSpeed)
 	e.GET("/ws", w.websocket)
@@ -102,6 +103,11 @@ func getIndex(c echo.Context) error {
 // getImpressum handles the GET request on /impressum.
 func getImpressum(c echo.Context) error {
 	return c.Render(http.StatusOK, "impressum.html", map[string]interface{}{})
+}
+
+// getStream handles the GET request on /stream.
+func getStream(c echo.Context) error {
+	return c.Render(http.StatusOK, "stream.html", map[string]interface{}{})
 }
 
 // websocket provides the websocket duh.
