@@ -14,6 +14,7 @@ import (
 	logMiddleware "github.com/neko-neko/echo-logrus/v2"
 	"github.com/neko-neko/echo-logrus/v2/log"
 	"github.com/sirupsen/logrus"
+	"golang.org/x/crypto/acme/autocert"
 )
 
 // TemplateRenderer implements the Echo renderer interface.
@@ -52,10 +53,11 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 		log.Logger().SetLevel(echoLog.WARN)
 	}
 	e.Logger = log.Logger()
+	e.AutoTLSManager.Cache = autocert.DirCache(cfg.CertCache)
 	e.Use(logMiddleware.Logger())
 	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
 		XFrameOptions: "",
-	}));
+	}))
 
 	e.Renderer = &TemplateRenderer{
 		tpls: template.Must(template.ParseGlob("public/views/*.html")),
@@ -80,6 +82,7 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 // Run runs the web server.
 func (w *Web) Run() {
 	w.echo.Logger.Fatal(w.echo.Start(fmt.Sprintf(":%d", w.cfg.Port)))
+	w.echo.Logger.Fatal(w.echo.StartAutoTLS(":443"))
 }
 
 // addRoutes adds the routes to the echo element.

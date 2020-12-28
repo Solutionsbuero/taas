@@ -13,6 +13,8 @@ type Config struct {
 	Port int `json:"port"`
 	// Db is the path to the sqlite db.
 	Db string `json:"db"`
+	// MqttClientId is the MQTT client id.
+	MqttClientId string `json:"mqtt_client_id"`
 	// MqttHost is the hostname of the the MQTT broker.
 	MqttHost string `json:"mqtt_host"`
 	// MqttPort is the port of the MQTT broker.
@@ -21,6 +23,8 @@ type Config struct {
 	MqttUser string `json:"mqtt_user"`
 	// MqttPassword is the password for the MQTT broker.
 	MqttPassword string `json:"mqtt_password"`
+	// CertCache path to autocert cache location.
+	CertCache string `json:"cert_cache"`
 }
 
 // DefaultConfig returns a new instance of the Config struct with default values.
@@ -28,10 +32,12 @@ func DefaultConfig() Config {
 	return Config{
 		Port:         8000,
 		Db:           "data.db",
+		MqttClientId: "ttrn-client",
 		MqttHost:     "127.0.0.1",
 		MqttPort:     1883,
 		MqttUser:     "mqtt-usr",
 		MqttPassword: "mqtt-pwd",
+		CertCache:    "cache",
 	}
 }
 
