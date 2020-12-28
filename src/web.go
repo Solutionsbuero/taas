@@ -81,7 +81,7 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 
 // Run runs the web server.
 func (w *Web) Run() {
-	w.echo.Logger.Fatal(w.echo.Start(fmt.Sprintf(":%d", w.cfg.Port)))
+	// w.echo.Logger.Fatal(w.echo.Start(fmt.Sprintf(":%d", w.cfg.Port)))
 	w.echo.Logger.Fatal(w.echo.StartAutoTLS(":443"))
 }
 
