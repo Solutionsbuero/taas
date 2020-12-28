@@ -9,8 +9,9 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	echoLog "github.com/labstack/gommon/log"
-	"github.com/neko-neko/echo-logrus/v2"
+	logMiddleware "github.com/neko-neko/echo-logrus/v2"
 	"github.com/neko-neko/echo-logrus/v2/log"
 	"github.com/sirupsen/logrus"
 )
@@ -51,7 +52,10 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 		log.Logger().SetLevel(echoLog.WARN)
 	}
 	e.Logger = log.Logger()
-	e.Use(middleware.Logger())
+	e.Use(logMiddleware.Logger())
+	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+		XFrameOptions: "",
+	}));
 
 	e.Renderer = &TemplateRenderer{
 		tpls: template.Must(template.ParseGlob("public/views/*.html")),
