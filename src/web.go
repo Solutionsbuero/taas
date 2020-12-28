@@ -71,6 +71,7 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 		turnoutPositionEvents: turnoutPositionEvents,
 		trainSpeedEvents:      trainSpeedEvents,
 		trainPositionEvents:   trainPositionEvents,
+		updateFrontend:        make(chan FrontendState),
 	}
 
 	rsl.addRoutes(e, cfg)
@@ -144,6 +145,7 @@ func (w *Web) postTournoutChange(c echo.Context) error {
 		Id:          id,
 		NewPosition: nPos,
 	}
+	w.updateFrontend <- FromState(w.state)
 	return nil
 }
 
@@ -174,5 +176,6 @@ func (w *Web) postTrainSpeed(c echo.Context) error {
 		Id:       id,
 		NewSpeed: nSpeed,
 	}
+	w.updateFrontend <- FromState(w.state)
 	return nil
 }
