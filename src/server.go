@@ -15,7 +15,7 @@ func Run(cfg Config, doDebug bool) {
 	trainSpeedEvents := make(chan TrainSpeedEvent)
 	trainPositionEvents := make(chan TrainPositionEvent)
 
-	web := NewWeb(cfg, doDebug, openDb(cfg), turnoutPositionEvents, trainSpeedEvents, trainPositionEvents)
+	web := NewWeb(cfg, doDebug, turnoutPositionEvents, trainSpeedEvents, trainPositionEvents)
 	mqtt := NewMqtt(cfg, turnoutPositionEvents, trainSpeedEvents, trainPositionEvents)
 
 	go mqtt.Run()

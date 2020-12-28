@@ -16,9 +16,26 @@ type User struct {
 
 // State represents the current state of the application.
 type State struct {
-	OperatorTrain1 *User
-	OperatorTrain2 *User
-	OperatorTrain3 *User
+	Train1Speed      int
+	Train2Speed      int
+	Turnout0Position int
+	Turnout1Position int
+	Turnout2Position int
+	Turnout3Position int
+	Turnout4Position int
+}
+
+// DefaultState returns the initial state.
+func DefaultState() State {
+	return State{
+		Train1Speed: 0,
+		Train2Speed: 0,
+		Turnout0Position: 1,
+		Turnout1Position: 1,
+		Turnout2Position: 1,
+		Turnout3Position: 1,
+		Turnout4Position: 1,
+	}
 }
 
 // TurnoutPositionEvent is a event on the position change of a turnaout.
@@ -43,4 +60,4 @@ type TrainPositionEvent struct {
 	Id int
 	// NewSpeed is the new speed of the train ranging from 0 to 2.
 	NewPosition int
-} 
+}
