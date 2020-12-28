@@ -68,12 +68,24 @@ function on_ready() {
 		console.log("connected to websocket at " + url);
 	}
 	ws.onmessage = on_frontend_ws;
+
+	// YES, this is a dirty hack, help to resolve this issue is warmly welcome.
+	window.addEventListener('DOMContentLoaded', (event) => {
+		setTimeout(() => {
+			update_ui(last_status);
+		}, 1500);
+	});
 }
 
 function on_frontend_ws(evt) {
 	let data = JSON.parse(evt.data);
 	last_status = data;
+	update_ui(data);
+}
 
+// UPDATE UI
+
+function update_ui(data) {
 	update_train(1, data.train_1_speed);
 	update_train(2, data.train_2_speed);
 	update_turnout(0, data.turnout_0_position);
@@ -81,9 +93,8 @@ function on_frontend_ws(evt) {
 	update_turnout(2, data.turnout_2_position);
 	update_turnout(3, data.turnout_3_position);
 	update_turnout(4, data.turnout_4_position);
-}
 
-// UPDATE UI
+}
 
 function update_train(id, speed) {
 	let ele = document.getElementById("train-" + id + "-speed");

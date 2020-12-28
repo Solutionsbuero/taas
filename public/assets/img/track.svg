@@ -4996,6 +4996,7 @@
    style="fill:none;stroke:#ffffff;stroke-width:15.09458733;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    d="m 785.93733,50.000002 h 33.92391 l 45.88555,36.258321"
    id="tu-0-d" /><path
+   onload="on_load_ele(0)"
    onmouseout="on_mouse_out()"
    onmouseover="on_turnout_over(0)"
    onclick="on_turnout_click(0)"
@@ -5022,7 +5023,7 @@
      onclick="on_turnout_click(1)"
      onmouseover="on_turnout_over(1)"
      onmouseout="on_mouse_out()" /></g><path
-   onload="update_ui(last_state)"
+   onload=""
    onmouseout="on_mouse_out()"
    onmouseover="on_turnout_over(2)"
    onclick="on_turnout_click(2)"
@@ -5035,6 +5036,7 @@
    style="fill:none;stroke:#ffffff;stroke-width:15.09457588;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    d="m 70.314648,317.99027 v 33.92386 l -36.258402,45.88548"
    id="tu-2-d" /><path
+   onload=""
    onmouseout="on_mouse_out()"
    onmouseover="on_turnout_over(2)"
    onclick="on_turnout_click(2)"

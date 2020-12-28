@@ -401,8 +401,8 @@
    inkscape:zoom="0.35355339"
    inkscape:cx="89.438358"
    inkscape:cy="835.41221"
-   inkscape:window-x="2223"
-   inkscape:window-y="56"
+   inkscape:window-x="2196"
+   inkscape:window-y="117"
    inkscape:window-maximized="0"
    inkscape:current-layer="track-map"
    fit-margin-top="0"
@@ -5326,7 +5326,7 @@
    onclick="on_turnout_click(2)"
    onmouseover="on_turnout_over(2)"
    onmouseout="on_mouse_out()"
-   onload="set_status(&quot;hoI&quot;)" /><path
+   onload="" /><path
    inkscape:connector-curvature="0"
    id="tu-2-d"
    d="m 70.314648,317.99027 v 33.92386 l -36.258402,45.88548"
@@ -5340,7 +5340,8 @@
    style="fill:none;stroke:#ffffff;stroke-width:15.09457588;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
    onclick="on_turnout_click(2)"
    onmouseover="on_turnout_over(2)"
-   onmouseout="on_mouse_out()" /><g
+   onmouseout="on_mouse_out()"
+   onload="on_svg_load()" /><g
    id="g13896"
    transform="matrix(1.677177,0,0,1.677177,-433.24833,-505.79951)"><path
      onmouseout="on_mouse_out()"
