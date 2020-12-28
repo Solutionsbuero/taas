@@ -1,4 +1,4 @@
-let speed = -3;
+let last_status = {};
 
 // HELPERS
 
@@ -37,7 +37,6 @@ function on_turnout_over(id) {
 function on_forward_click(id) {
 	console.log("train " + id + " speed +1");
 	post_json("/api/train/" + id + "/speed", {"speed_delta": 1})
-	// document.getElementById("train-1-speed").textContent = "-4";
 }
 
 function on_forward_over(id) {
@@ -72,7 +71,42 @@ function on_ready() {
 }
 
 function on_frontend_ws(evt) {
-	console.log(evt);
+	let data = JSON.parse(evt.data);
+	last_status = data;
+
+	update_train(1, data.train_1_speed);
+	update_train(2, data.train_2_speed);
+	update_turnout(0, data.turnout_0_position);
+	update_turnout(1, data.turnout_1_position);
+	update_turnout(2, data.turnout_2_position);
+	update_turnout(3, data.turnout_3_position);
+	update_turnout(4, data.turnout_4_position);
+}
+
+// UPDATE UI
+
+function update_train(id, speed) {
+	let ele = document.getElementById("train-" + id + "-speed");
+	if (!ele) {
+		return
+	}
+	ele.textContent = speed;
+}
+
+function update_turnout(id, position) {
+	let straight = document.getElementById("tu-" + id + "-s");
+	let diverging = document.getElementById("tu-" + id + "-d");
+	if (!straight || !diverging) {
+		return
+	}
+
+	if (position === 1) {
+		straight.style.display = "block";
+		diverging.style.display = "none";
+	} else {
+		straight.style.display = "none";
+		diverging.style.display = "block";
+	}
 }
 
 ready(on_ready());

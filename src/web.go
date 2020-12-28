@@ -1,16 +1,13 @@
 package ttrn
 
 import (
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"io"
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/sessions"
 	"github.com/gorilla/websocket"
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	echoLog "github.com/labstack/gommon/log"
 	"github.com/neko-neko/echo-logrus/v2"
@@ -55,8 +52,6 @@ func NewWeb(cfg Config, doDebug bool, turnoutPositionEvents chan TurnoutPosition
 	}
 	e.Logger = log.Logger()
 	e.Use(middleware.Logger())
-
-	e.Use(session.Middleware(sessions.NewCookieStore([]byte("lala"))))
 
 	e.Renderer = &TemplateRenderer{
 		tpls: template.Must(template.ParseGlob("public/views/*.html")),
@@ -111,16 +106,16 @@ func (w *Web) websocket(c echo.Context) error {
 	}
 	defer ws.Close()
 
+	if err := ws.WriteJSON(FromState(w.state)); err != nil {
+		err := fmt.Errorf("error occured while write initial websocket message, %s", err)
+		logrus.Error(err)
+		return err
+	}
+
 	for {
 		state := <-w.updateFrontend
-		data, err := json.Marshal(state)
-		if err != nil {
-			err := fmt.Errorf("couldn't marshal state to JSON, %s", err)
-			logrus.Error(err)
-			return err
-		}
 
-		if err := ws.WriteMessage(websocket.TextMessage, data); err != nil {
+		if err := ws.WriteJSON(state); err != nil {
 			err := fmt.Errorf("error occured while write status message to websocket, %s", err)
 			logrus.Error(err)
 			return err

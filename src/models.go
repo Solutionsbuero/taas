@@ -62,11 +62,11 @@ func (s *State) SwitchTurnout(id int) (int, error) {
 type FrontendState struct {
 	Train1Speed      int `json:"train_1_speed"`
 	Train2Speed      int `json:"train_2_speed"`
-	Turnout0Position int `json:"turnout_1_position"`
-	Turnout1Position int `json:"turnout_2_position"`
-	Turnout2Position int `json:"turnout_3_position"`
-	Turnout3Position int `json:"turnout_4_position"`
-	Turnout4Position int `json:"turnout_5_position"`
+	Turnout0Position int `json:"turnout_0_position"`
+	Turnout1Position int `json:"turnout_1_position"`
+	Turnout2Position int `json:"turnout_2_position"`
+	Turnout3Position int `json:"turnout_3_position"`
+	Turnout4Position int `json:"turnout_4_position"`
 }
 
 // FromState returns a FrontendState instance from a State instance.
